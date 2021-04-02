@@ -22,10 +22,14 @@ public class Facture {
         return id + ". " + idx_site + " " + idx_serveur;
     }
 
-    public void saveFacture(Connection connection) throws SQLException {
+    public int saveFacture(Connection connection) throws SQLException {
         Statement ordreSQL = connection.createStatement();
-        ordreSQL.execute("INSERT INTO facture (idx_site, idx_serveur) VALUES ('" + idx_site + "','" + idx_serveur + "')");
-        ordreSQL.close();
+        ordreSQL.execute("INSERT INTO facture (idx_site, idx_serveur) VALUES ('" + idx_site + "','" + idx_serveur + "')", Statement.RETURN_GENERATED_KEYS);
+        ResultSet rs = ordreSQL.getGeneratedKeys();
+        if (rs.next()) {
+            id = rs.getInt(1);
+            ordreSQL.close();
+        } return id;
     }
 
     public static List<Facture> getFactures(Connection connection) throws SQLException {

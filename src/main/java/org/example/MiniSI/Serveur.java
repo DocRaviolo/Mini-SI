@@ -30,7 +30,7 @@ public class Serveur {
     public static List<Serveur> getServeurs(Connection connection) throws SQLException {
         // Pouvoir lister des serveurs
         Statement ordreSQL = connection.createStatement();
-        ResultSet resultats = ordreSQL.executeQuery("SELECT * from serveur");
+        ResultSet resultats = ordreSQL.executeQuery("SELECT * from serveur ORDER BY id");
 
         List<Serveur> serveursList = new ArrayList<>();
 

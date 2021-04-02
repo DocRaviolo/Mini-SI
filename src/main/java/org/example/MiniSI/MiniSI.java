@@ -24,6 +24,7 @@ public class MiniSI {
             System.out.println("3. Statistiques");
             System.out.println("Votre choix ? (1, 2 ou 3)");
             int choix = sc.nextInt();
+            sc.nextLine();
 
             if (choix == 1) {
                 System.out.println("Bienvenue dans le module de saisie des factures.");
@@ -35,38 +36,41 @@ public class MiniSI {
                 Facture.getFactures(connection);
                 System.out.println("Veuillez indiquer le numéro de table : ");
                 int idx_site = sc.nextInt();
+                sc.nextLine();
                 // print de la liste des serveurs
                 Serveur.getServeurs(connection);
                 //retour sur la classe Facture
                 System.out.println("Merci d'indiquer le numéro du serveur : ");
                 int idx_serveur = sc.nextInt();
+                sc.nextLine();
                 Facture nouvelleFacture = new Facture(idx_site, idx_serveur);
-                nouvelleFacture.saveFacture(connection);
+                int idx_facture= nouvelleFacture.saveFacture(connection);
                 Facture.getFactures(connection);
+
                 //boucle de saisie des articles, tant qu'un plat est rentré
                 //Bloc plats
                 Plat.getPlats(connection);
                 //Bloc jointures
                 Join_Plat_Facture.getJoins(connection);
-                //int idx_plat = 0;
-                Integer idx_plat=0;
+                //int idx_facture= id;
+                int idx_plat = 0;
+
                 do {
-                    // int idx_facture = facturesList.size()-1;
                     System.out.print("Quel plat a été commandé : ");
                     idx_plat = sc.nextInt();
+                    sc.nextLine();
 
                     if (idx_plat>=0) {
                         System.out.print("En quelle quantité : ");
                         int quantite = sc.nextInt();
-                        // Join_Plat_Facture nouvelleJointure = new Join_Plat_Facture(idx_plat, idx_facture, quantite);
-                        // nouvelleJointure.saveJoin(connection);
-                        // On nettoie la ligne
                         sc.nextLine();
-                    } idx_plat=0;
+                        Join_Plat_Facture nouvelleJointure = new Join_Plat_Facture(idx_plat, idx_facture, quantite);
+                        nouvelleJointure.saveJoin(connection);
+                    }
                 }
-                while (idx_plat==null);
-                //System.out.println("Si j'ai le temps j'insérerai l'édition de la facture");
-            }System.out.println("Si j'ai le temps j'insérerai l'édition de la facture");
+                while (idx_plat>=0);
+                System.out.println("Si j'ai le temps j'insérerai l'édition de la facture");
+            }
 
             //Bloc factures
 //            Facture.getFactures(connection);
@@ -135,9 +139,9 @@ public class MiniSI {
             Table.getTables(connection);
             System.out.println("Donne moi le nom de la nouvelle table : ");
             String nom = sc.nextLine();
-            //sc.nextLine();
             System.out.println("Donne moi le nombre de convives max : ");
             int nb_places = sc.nextInt();
+            sc.nextLine();
             int id=0;
             Table nouvelleTable = new Table(id,nom,nb_places);
             nouvelleTable.saveTable(connection);
@@ -159,12 +163,12 @@ public class MiniSI {
             int id=0;
             System.out.println("Donne moi le nom du plat : ");
             String nom = sc.nextLine();
-            sc.nextLine();
             System.out.println("Donne moi le prix du plat : ");
             double prix_unitaire = sc.nextDouble();
             sc.nextLine();
             System.out.println("Donne moi le prix de revient du plat : ");
             double prix_de_revient = sc.nextDouble();
+            sc.nextLine();
             Plat nouveauPlat = new Plat(id,nom,prix_unitaire,prix_de_revient);
             nouveauPlat.savePlat(connection);
             Plat.getPlats(connection);
